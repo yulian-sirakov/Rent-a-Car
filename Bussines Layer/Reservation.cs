@@ -10,12 +10,16 @@ namespace Bussines_Layer
     public partial class Reservation
     {
         [Key]
+        [MaxLength(50,ErrorMessage ="Max length for reservation id is 50")]
         public int Id { get; set; }
         [Required]
+        [MaxLength(50,ErrorMessage ="Max length for curstomer id is 50")]
         public int CustomerId { get; set; }
         [Required]
+        [MaxLength(50,ErrorMessage ="Max length for car id is 50")]
         public int CarId { get; set; }
         [Required]
+
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
@@ -24,7 +28,7 @@ namespace Bussines_Layer
         [Required]
         public ReservationStatus Status { get; set; }
 
-        public Reservation()
+        private Reservation()
         {
                 
         }

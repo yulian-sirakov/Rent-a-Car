@@ -10,16 +10,18 @@ namespace Bussines_Layer
     public class CarCategory
     {
         [Key]
+        [MaxLength(50, ErrorMessage ="Max length for car category id is 50")]
         public int CarCategoryId { get; set; }
 
         [Required]
+        [MaxLength(50,ErrorMessage ="Max length for category name is 50")]
         public string Name { get; set; }
 
-        [Required]
+        
         public string Description { get; set; }
 
        
-        public CarCategory()
+        private CarCategory()
         {
         }
 
