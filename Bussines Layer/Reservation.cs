@@ -10,37 +10,44 @@ namespace Bussines_Layer
     public partial class Reservation
     {
         [Key]
-        [MaxLength(50,ErrorMessage ="Max length for reservation id is 50")]
         public int Id { get; set; }
-        [Required]
-        [MaxLength(50,ErrorMessage ="Max length for curstomer id is 50")]
-        public int CustomerId { get; set; }
-        [Required]
-        [MaxLength(50,ErrorMessage ="Max length for car id is 50")]
-        public int CarId { get; set; }
-        [Required]
 
+        [Required]
+        public Customer Customer { get; set; }
+
+        [Required]
+        public Car Car { get; set; }
+
+
+        [Required]
         public DateTime StartDate { get; set; }
+
         [Required]
         public DateTime EndDate { get; set; }
+
         [Required]
         public decimal TotalPrice { get; set; }
+
         [Required]
         public ReservationStatus Status { get; set; }
 
+        public List<Review> Reviews { get; set; }
+
+
         private Reservation()
         {
-                
+            Reviews = new List<Review>();
         }
-        public Reservation(int id, int customerId, int carId, DateTime startDate, DateTime endDate, decimal totalPrice, ReservationStatus status)
+        public Reservation(int id, Customer customer, Car car, DateTime startDate, DateTime endDate, decimal totalPrice, ReservationStatus status)
         {
             Id = id;
-            CustomerId = customerId;
-            CarId = carId;
+            Customer = customer;
+            Car = car;
             StartDate = startDate;
             EndDate = endDate;
             TotalPrice = totalPrice;
             Status = status;
+            Reviews = new List<Review>();
         }
     }
 }

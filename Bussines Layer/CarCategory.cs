@@ -10,19 +10,18 @@ namespace Bussines_Layer
     public class CarCategory
     {
         [Key]
-        [MaxLength(50, ErrorMessage ="Max length for car category id is 50")]
         public int CarCategoryId { get; set; }
 
         [Required]
         [MaxLength(50,ErrorMessage ="Max length for category name is 50")]
         public string Name { get; set; }
 
-        
         public string Description { get; set; }
 
-       
+        List<Car> Cars {  get; set; }
         private CarCategory()
         {
+            Cars = new List<Car>();
         }
 
        
@@ -31,6 +30,7 @@ namespace Bussines_Layer
             CarCategoryId = carCategoryId;
             Name = name;
             Description = description;
+            Cars = new List<Car>();
         }
     }
 }
