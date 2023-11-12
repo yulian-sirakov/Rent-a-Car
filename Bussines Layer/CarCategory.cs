@@ -18,7 +18,7 @@ namespace Bussines_Layer
 
         public string Description { get; set; }
 
-        List<Car> Cars {  get; set; }
+        public List<Car> Cars {  get; set; }
         private CarCategory()
         {
             Cars = new List<Car>();
