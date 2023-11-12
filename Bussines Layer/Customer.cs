@@ -25,13 +25,13 @@ namespace Bussines_Layer
         [MaxLength(20,ErrorMessage ="Max length for customer phone number is 20")]
         public string PhoneNumber { get; set; }
 
-        public List<Reservation> Reservation { get; set; }
+        public List<Reservation> Reservations { get; set; }
 
         public List<Review> Reviews { get; set; }
 
         private Customer()
         {
-            Reservation = new List<Reservation>();
+            Reservations = new List<Reservation>();
             Reviews = new List<Review>();
         }
         public Customer(int id, string name, string email, string phoneNumber)
@@ -40,7 +40,7 @@ namespace Bussines_Layer
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber;
-            Reservation = new List<Reservation>();
+            Reservations = new List<Reservation>();
             Reviews = new List<Review>();
         }
 
