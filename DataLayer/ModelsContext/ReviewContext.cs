@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bussines_Layer;
+using Bussines_Layer.Models;
+using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace DataLayer
+namespace DataLayer.ModelsContext
 {
-    public class ReviewContext : IDb<Review,int>
+    public class ReviewContext : IDb<Review, int>
     {
         private readonly RentACarDbContext dbContext;
 
         public ReviewContext(RentACarDbContext dbContext)
         {
-           this.dbContext = dbContext;
+            this.dbContext = dbContext;
         }
 
         public async Task CreateAsync(Review item)
@@ -28,11 +29,6 @@ namespace DataLayer
                     item.Customer = customerFromDb;
                 }
 
-                Reservation reservationFromDb = await dbContext.Reservations.FindAsync(item.Reservation.Id);
-                if (reservationFromDb != null)
-                {
-                    item.Reservation = reservationFromDb;
-                }
 
                 dbContext.Reviews.Add(item);
                 await dbContext.SaveChangesAsync();
@@ -50,17 +46,13 @@ namespace DataLayer
             {
                 IQueryable<Review> query = dbContext.Reviews;
 
-                if (useNavigationalProperties)
-                {
-                    query = query.Include(r => r.Customer).Include(r => r.Reservation);
-                }
 
                 if (isReadOnly)
                 {
                     query = query.AsNoTrackingWithIdentityResolution();
                 }
 
-                return await query.FirstOrDefaultAsync(r => r.ReviewId == key);
+                return await query.FirstOrDefaultAsync(r => r.Id == key);
             }
             catch (Exception)
             {
@@ -74,17 +66,13 @@ namespace DataLayer
             {
                 IQueryable<Review> query = dbContext.Reviews;
 
-                if (useNavigationalProperties)
-                {
-                    query = query.Include(r => r.Customer).Include(r => r.Reservation);
-                }
 
                 if (isReadOnly)
                 {
                     query = query.AsNoTrackingWithIdentityResolution();
                 }
 
-                 return await query.ToListAsync();
+                return await query.ToListAsync();
             }
             catch (Exception)
             {
@@ -92,13 +80,13 @@ namespace DataLayer
             }
         }
 
-        
+
 
         public async Task UpdateAsync(Review item, bool useNavigationalProperties = false)
         {
             try
             {
-                Review reviewFromDb = await ReadAsync(item.ReviewId, useNavigationalProperties, false);
+                Review reviewFromDb = await ReadAsync(item.Id, useNavigationalProperties, false);
 
                 reviewFromDb.ReviewText = item.ReviewText;
                 reviewFromDb.Rating = item.Rating;
@@ -116,15 +104,7 @@ namespace DataLayer
                         reviewFromDb.Customer = item.Customer;
                     }
 
-                    Reservation reservationFromDb = await dbContext.Reservations.FindAsync(item.Reservation.Id);
-                    if (reservationFromDb != null)
-                    {
-                        reviewFromDb.Reservation = reservationFromDb;
-                    }
-                    else
-                    {
-                        reviewFromDb.Reservation = item.Reservation;
-                    }
+
                 }
 
                 await dbContext.SaveChangesAsync();

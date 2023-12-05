@@ -12,18 +12,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(RentACarDbContext))]
-    [Migration("20231112172620_RentACar")]
-    partial class RentACar
+    [Migration("20231204073536_04.12")]
+    partial class _0412
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "6.0.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Bussines_Layer.Car", b =>
                 {
@@ -31,14 +30,14 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("CategoryCarCategoryId")
+                    b.Property<int>("CarCategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("DailyRent")
@@ -61,18 +60,18 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryCarCategoryId");
+                    b.HasIndex("CarCategoryId");
 
                     b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Bussines_Layer.CarCategory", b =>
                 {
-                    b.Property<int>("CarCategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarCategoryId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -83,7 +82,7 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("CarCategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("CarCategories");
                 });
@@ -94,7 +93,7 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -116,13 +115,34 @@ namespace DataLayer.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Bussines_Layer.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Adress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
             modelBuilder.Entity("Bussines_Layer.Reservation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CarId")
                         .HasColumnType("int");
@@ -153,11 +173,11 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("Bussines_Layer.Review", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -172,7 +192,7 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ReviewId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
@@ -185,7 +205,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("Bussines_Layer.CarCategory", "Category")
                         .WithMany("Cars")
-                        .HasForeignKey("CategoryCarCategoryId")
+                        .HasForeignKey("CarCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -201,7 +221,7 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.HasOne("Bussines_Layer.Customer", "Customer")
-                        .WithMany("Reservation")
+                        .WithMany("Reservations")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -220,7 +240,7 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.HasOne("Bussines_Layer.Reservation", "Reservation")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -237,13 +257,8 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("Bussines_Layer.Customer", b =>
                 {
-                    b.Navigation("Reservation");
+                    b.Navigation("Reservations");
 
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("Bussines_Layer.Reservation", b =>
-                {
                     b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618

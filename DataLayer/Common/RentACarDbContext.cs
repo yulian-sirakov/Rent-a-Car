@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Bussines_Layer;
+using Bussines_Layer.Models;
 
-namespace DataLayer
+namespace DataLayer.Common
 {
     public class RentACarDbContext : DbContext
     {
@@ -23,16 +23,14 @@ namespace DataLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-SQ0CA1F\\SQLEXPRESS;Database=RentACar;Trusted_Connection=True;TrustServerCertificate=True;");
-            }
-            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Server=DESKTOP-SQ0CA1F\\SQLEXPRESS;Database=RentACar;Trusted_Connection=True;TrustServerCertificate=True;");
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<CarReview>(entity =>
+            entity.HasKey(cr => new { cr.ReviewId, cr.CarId }));
         }
 
         public DbSet<Car> Cars { get; set; }
@@ -44,5 +42,9 @@ namespace DataLayer
         public DbSet<Reservation> Reservations { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Location> Locations { get; set; }
+
+        public DbSet<CarReview> CarsReviews { get; set; }
     }
 }

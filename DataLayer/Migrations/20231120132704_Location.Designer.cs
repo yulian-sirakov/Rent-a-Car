@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(RentACarDbContext))]
-    [Migration("20231112172620_RentACar")]
-    partial class RentACar
+    [Migration("20231120132704_Location")]
+    partial class Location
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("CategoryCarCategoryId")
+                    b.Property<int>("CarCategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("DailyRent")
@@ -61,18 +61,18 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryCarCategoryId");
+                    b.HasIndex("CarCategoryId");
 
                     b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Bussines_Layer.CarCategory", b =>
                 {
-                    b.Property<int>("CarCategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarCategoryId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -83,7 +83,7 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("CarCategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("CarCategories");
                 });
@@ -153,11 +153,11 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("Bussines_Layer.Review", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -172,7 +172,7 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ReviewId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
@@ -185,7 +185,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("Bussines_Layer.CarCategory", "Category")
                         .WithMany("Cars")
-                        .HasForeignKey("CategoryCarCategoryId")
+                        .HasForeignKey("CarCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -201,7 +201,7 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.HasOne("Bussines_Layer.Customer", "Customer")
-                        .WithMany("Reservation")
+                        .WithMany("Reservations")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -237,7 +237,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("Bussines_Layer.Customer", b =>
                 {
-                    b.Navigation("Reservation");
+                    b.Navigation("Reservations");
 
                     b.Navigation("Reviews");
                 });

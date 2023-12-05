@@ -5,29 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bussines_Layer
+namespace Bussines_Layer.Models
 {
     public class CarCategory
     {
         [Key]
-        public int CarCategoryId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [MaxLength(50,ErrorMessage ="Max length for category name is 50")]
+        [MaxLength(50, ErrorMessage = "Max length for category name is 50")]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public List<Car> Cars {  get; set; }
+        public List<Car> Cars { get; set; }
         private CarCategory()
         {
             Cars = new List<Car>();
         }
 
-       
-        public CarCategory(int carCategoryId, string name, string description)
+
+        public CarCategory(int id, string name, string description)
         {
-            CarCategoryId = carCategoryId;
+            Id = id;
             Name = name;
             Description = description;
             Cars = new List<Car>();

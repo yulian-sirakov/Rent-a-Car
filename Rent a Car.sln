@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussines Layer", "Bussines Layer\Bussines Layer.csproj", "{AD70AC17-7A49-45B3-865B-9172874BE81A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bussines Layer", "Bussines Layer\Bussines Layer.csproj", "{AD70AC17-7A49-45B3-865B-9172874BE81A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{B23EBE11-E7E4-49BC-A61A-87E4F660657C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{B23EBE11-E7E4-49BC-A61A-87E4F660657C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{3909F706-E626-41D1-B578-35AA12979D10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B23EBE11-E7E4-49BC-A61A-87E4F660657C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B23EBE11-E7E4-49BC-A61A-87E4F660657C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B23EBE11-E7E4-49BC-A61A-87E4F660657C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3909F706-E626-41D1-B578-35AA12979D10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3909F706-E626-41D1-B578-35AA12979D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3909F706-E626-41D1-B578-35AA12979D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3909F706-E626-41D1-B578-35AA12979D10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

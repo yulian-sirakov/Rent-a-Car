@@ -1,43 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bussines_Layer
+namespace Bussines_Layer.Models
 {
     public class Review
     {
         [Key]
-        public int ReviewId { get; set; }
+        public int Id { get; set; }
 
         [Required]
+        public int CustomerId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; }
 
         [Required]
-        public Reservation Reservation { get; set; }
-
-        [Required]
         public string ReviewText { get; set; }
-        
+
         [Range(1, 5, ErrorMessage = "Рейтингът трябва да бъде между 1 и 5.")]
         public double Rating { get; set; }
 
-        
+
+        public ICollection<CarReview> CarsReviews { get; set; }
+
+
+
         private Review()
         {
-
+            CarsReviews = new List<CarReview>();
         }
 
-       
-        public Review(int reviewId, Customer customer, Reservation reservation, string reviewText, int rating)
+
+        public Review(int id, Customer customer, string reviewText, int rating)
         {
-            ReviewId = reviewId;
+            Id = id;
             Customer = customer;
-            Reservation = reservation;
             ReviewText = reviewText;
             Rating = rating;
+            CustomerId = customer.Id;
+            CarsReviews = new List<CarReview>();
         }
     }
 }

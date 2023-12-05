@@ -4,12 +4,13 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bussines_Layer;
+using Bussines_Layer.Models;
+using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataLayer
+namespace DataLayer.ModelsContext
 {
-    public class CarCategoryContext : IDb<CarCategory,int>
+    public class CarCategoryContext : IDb<CarCategory, int>
     {
         private readonly RentACarDbContext dbContext;
 
@@ -48,7 +49,7 @@ namespace DataLayer
                     query = query.AsNoTrackingWithIdentityResolution();
                 }
 
-                return await query.FirstOrDefaultAsync(c=>c.CarCategoryId == key);
+                return await query.FirstOrDefaultAsync(c => c.Id == key);
 
             }
             catch (Exception)
@@ -82,7 +83,7 @@ namespace DataLayer
                 //Не може чрез навигационните свойства на категорията на кола да се ъпдейтне колата
                 // useNavigationalProperties -> NO
 
-                CarCategory carCategoryFromDb = await ReadAsync(item.CarCategoryId,false,false);
+                CarCategory carCategoryFromDb = await ReadAsync(item.Id, false, false);
                 if (carCategoryFromDb == null)
                 {
                     throw new ArgumentException("Car category that you want to update does not exist!");
@@ -105,7 +106,7 @@ namespace DataLayer
         {
             try
             {
-                CarCategory carCategoryFromDb = await ReadAsync(key,false,false);
+                CarCategory carCategoryFromDb = await ReadAsync(key, false, false);
 
                 if (carCategoryFromDb == null)
                 {
@@ -122,10 +123,10 @@ namespace DataLayer
             }
         }
 
-        
 
-        
 
-        
+
+
+
     }
 }

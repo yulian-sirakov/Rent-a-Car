@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bussines_Layer;
+using Bussines_Layer.Models;
+using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataLayer
+namespace DataLayer.ModelsContext
 {
-    public class CustomerContext : IDb<Customer,int>
+    public class CustomerContext : IDb<Customer, int>
     {
         private readonly RentACarDbContext dbContext;
 
@@ -86,7 +87,7 @@ namespace DataLayer
                     }
                     foreach (Review review in item.Reviews)
                     {
-                        Review reviewFromDb = await dbContext.Reviews.FindAsync(review.ReviewId);
+                        Review reviewFromDb = await dbContext.Reviews.FindAsync(review.Id);
                         if (reviewFromDb == null)
                         {
                             reviews.Add(review);
@@ -105,7 +106,7 @@ namespace DataLayer
 
                 throw;
             }
-            
+
         }
         public async Task DeleteAsync(int key)
         {
@@ -127,10 +128,10 @@ namespace DataLayer
             }
         }
 
-        
 
-        
 
-        
+
+
+
     }
 }

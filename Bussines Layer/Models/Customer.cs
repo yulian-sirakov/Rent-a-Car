@@ -6,23 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Bussines_Layer
+namespace Bussines_Layer.Models
 {
-    public  class Customer
+    public class Customer
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(100,ErrorMessage ="Max length for customer name is 100")]
+        [MaxLength(100, ErrorMessage = "Max length for customer name is 100")]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(50,ErrorMessage ="Max length for customer email is 50")]
+        [MaxLength(50, ErrorMessage = "Max length for customer email is 50")]
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(20,ErrorMessage ="Max length for customer phone number is 20")]
+        [MaxLength(20, ErrorMessage = "Max length for customer phone number is 20")]
         public string PhoneNumber { get; set; }
 
         public List<Reservation> Reservations { get; set; }
@@ -45,8 +45,8 @@ namespace Bussines_Layer
         }
 
     }
-    
 
-    
-   
+
+
+
 }

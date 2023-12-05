@@ -1,13 +1,13 @@
-﻿using Bussines_Layer;
+﻿using Bussines_Layer.Models;
+using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer
+namespace DataLayer.ModelsContext
 {
     public class ReservationContext : IDb<Reservation, int>
     {
@@ -39,7 +39,7 @@ namespace DataLayer
 
                 if (useNavigationalProperties)
                 {
-                    query = query.Include(r => r.Car).Include(r => r.Customer).Include(r => r.Reviews);
+                    query = query.Include(r => r.Car).Include(r => r.Customer);
                 }
 
                 if (isReadOnly)
@@ -64,7 +64,7 @@ namespace DataLayer
 
                 if (useNavigationalProperties)
                 {
-                    query = query.Include(r => r.Car).Include(r => r.Customer).Include(r => r.Reviews);
+                    query = query.Include(r => r.Car).Include(r => r.Customer);
                 }
 
                 if (isReadOnly)
@@ -94,20 +94,6 @@ namespace DataLayer
                 //REVIEWS,CUSTOMER,CAR
                 if (useNavigationalProperties)
                 {
-                    List<Review> reviews = new List<Review>(item.Reviews.Count);
-                    foreach (Review review in item.Reviews)
-                    {
-                        Review reviewFromDb = await dbContext.Reviews.FindAsync(review.ReviewId);
-                        if (reviewFromDb != null)
-                        {
-                            reviews.Add(reviewFromDb);
-                        }
-                        else
-                        {
-                            reviews.Add(review);
-                        }
-                    }
-                    reservationFromDb.Reviews = reviews;
 
                     Customer customerFromDb = await dbContext.Customers.FindAsync(item.Customer.Id);
                     if (customerFromDb != null)
@@ -126,7 +112,7 @@ namespace DataLayer
                     }
                     else
                     {
-                        reservationFromDb.Car= item.Car;
+                        reservationFromDb.Car = item.Car;
                     }
 
                 }
@@ -142,7 +128,7 @@ namespace DataLayer
         {
             try
             {
-                Reservation reservationFromDb = await ReadAsync(key,false,false);
+                Reservation reservationFromDb = await ReadAsync(key, false, false);
                 if (reservationFromDb == null)
                 {
                     throw new ArgumentException("Reservation with that id does not exist");

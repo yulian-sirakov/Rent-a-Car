@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bussines_Layer;
+using Bussines_Layer.Models;
+using DataLayer.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataLayer
+namespace DataLayer.ModelsContext
 {
-    public class CarContext : IDb<Car,int>
+    public class CarContext : IDb<Car, int>
     {
         private readonly RentACarDbContext dbContext;
 
         public CarContext(RentACarDbContext dbContext)
         {
-                this.dbContext = dbContext;
+            this.dbContext = dbContext;
         }
 
         public async Task CreateAsync(Car item)
         {
             try
             {
-                CarCategory carCategoryFromDb = await dbContext.CarCategories.FindAsync(item.Category.CarCategoryId);
+                CarCategory carCategoryFromDb = await dbContext.CarCategories.FindAsync(item.Category.Id);
                 if (carCategoryFromDb != null)
                 {
                     item.Category = carCategoryFromDb;
@@ -84,7 +85,7 @@ namespace DataLayer
         }
         public async Task UpdateAsync(Car item, bool useNavigationalProperties = false)
         {
-            Car carFromDb = await ReadAsync(item.Id, useNavigationalProperties,false);
+            Car carFromDb = await ReadAsync(item.Id, useNavigationalProperties, false);
             carFromDb.Brand = item.Brand;
             carFromDb.Model = item.Model;
             carFromDb.Year = item.Year;
@@ -94,7 +95,7 @@ namespace DataLayer
 
             if (useNavigationalProperties)
             {
-                CarCategory carCategoryFromDb = await dbContext.CarCategories.FindAsync(item.Category.CarCategoryId);
+                CarCategory carCategoryFromDb = await dbContext.CarCategories.FindAsync(item.Category.Id);
                 if (carCategoryFromDb != null)
                 {
                     carFromDb.Category = carCategoryFromDb;
@@ -109,7 +110,7 @@ namespace DataLayer
         {
             try
             {
-                Car carFromDb = await ReadAsync(key, false,false);
+                Car carFromDb = await ReadAsync(key, false, false);
                 if (carFromDb == null)
                 {
                     throw new ArgumentException("Car with that key does not exist!");
@@ -124,10 +125,10 @@ namespace DataLayer
             }
         }
 
-        
 
-        
 
-        
+
+
+
     }
 }

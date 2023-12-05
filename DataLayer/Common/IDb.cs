@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer
+namespace DataLayer.Common
 {
-    public interface IDb<T,K> where K : IConvertible
+    public interface IDb<T, K> where K : IConvertible
     {
         Task CreateAsync(T item);
 

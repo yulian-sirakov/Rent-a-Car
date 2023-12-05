@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bussines_Layer.Enums;
 
-namespace Bussines_Layer
+namespace Bussines_Layer.Models
 {
     public partial class Reservation
     {
@@ -13,12 +15,18 @@ namespace Bussines_Layer
         public int Id { get; set; }
 
         [Required]
+        public int CustomerId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; }
 
         [Required]
+        public int CarId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
-
-
         [Required]
         public DateTime StartDate { get; set; }
 
@@ -31,12 +39,16 @@ namespace Bussines_Layer
         [Required]
         public ReservationStatus Status { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        [Required]
+        public int LocationId { get; set; }
+
+        [ForeignKey(nameof(LocationId))]
+        public Location Location { get; set; }
 
 
         private Reservation()
         {
-            Reviews = new List<Review>();
+
         }
         public Reservation(int id, Customer customer, Car car, DateTime startDate, DateTime endDate, decimal totalPrice, ReservationStatus status)
         {
@@ -47,7 +59,8 @@ namespace Bussines_Layer
             EndDate = endDate;
             TotalPrice = totalPrice;
             Status = status;
-            Reviews = new List<Review>();
+            CustomerId = customer.Id;
+            CarId = car.Id;
         }
     }
 }
