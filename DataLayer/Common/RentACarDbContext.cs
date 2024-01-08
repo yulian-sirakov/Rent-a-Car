@@ -29,8 +29,7 @@ namespace DataLayer.Common
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CarReview>(entity =>
-            entity.HasKey(cr => new { cr.ReviewId, cr.CarId }));
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Car> Cars { get; set; }
@@ -45,6 +44,5 @@ namespace DataLayer.Common
 
         public DbSet<Location> Locations { get; set; }
 
-        public DbSet<CarReview> CarsReviews { get; set; }
     }
 }
