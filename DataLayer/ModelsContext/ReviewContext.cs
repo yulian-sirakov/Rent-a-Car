@@ -46,7 +46,6 @@ namespace DataLayer.ModelsContext
             {
                 IQueryable<Review> query = dbContext.Reviews;
 
-
                 if (isReadOnly)
                 {
                     query = query.AsNoTrackingWithIdentityResolution();

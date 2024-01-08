@@ -27,13 +27,13 @@ namespace Bussines_Layer.Models
         public double Rating { get; set; }
 
 
-        public ICollection<CarReview> CarsReviews { get; set; }
+        public ICollection<Car> Cars { get; set; }
 
 
 
         private Review()
         {
-            CarsReviews = new List<CarReview>();
+            Cars = new List<Car>();
         }
 
 
@@ -44,7 +44,7 @@ namespace Bussines_Layer.Models
             ReviewText = reviewText;
             Rating = rating;
             CustomerId = customer.Id;
-            CarsReviews = new List<CarReview>();
+            Cars = new List<Car>();
         }
     }
 }

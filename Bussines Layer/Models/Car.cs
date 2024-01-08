@@ -42,11 +42,11 @@ namespace Bussines_Layer.Models
         [ForeignKey(nameof(CarCategoryId))]
         public CarCategory Category { get; set; }
 
-        public ICollection<CarReview> CarsReviews { get; set; }
+        public ICollection<Review> Reviews { get; set; }
 
         private Car()
         {
-            CarsReviews = new List<CarReview>();
+            Reviews = new List<Review>();
         }
         public Car(int id, string brand, string model, int year, decimal dailyRent, string description, CarCategory category, bool isReserved)
         {
@@ -59,7 +59,7 @@ namespace Bussines_Layer.Models
             Category = category;
             IsReserved = isReserved;
             CarCategoryId = category.Id;
-            CarsReviews = new List<CarReview>();
+            Reviews = new List<Review>();
         }
     }
 }

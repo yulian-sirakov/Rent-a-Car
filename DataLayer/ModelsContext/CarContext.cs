@@ -43,7 +43,7 @@ namespace DataLayer.ModelsContext
                 IQueryable<Car> query = dbContext.Cars;
                 if (useNavigationalProperties)
                 {
-                    query = query.Include(c => c.Category);
+                    query = query.Include(c => c.Category).Include(c=>c.Reviews);
                 }
 
                 if (isReadOnly)
@@ -67,7 +67,7 @@ namespace DataLayer.ModelsContext
                 IQueryable<Car> query = dbContext.Cars;
                 if (useNavigationalProperties)
                 {
-                    query = query.Include(c => c.Category);
+                    query = query.Include(c => c.Category).Include(c=>c.Reviews);
                 }
 
                 if (isReadOnly)
@@ -105,6 +105,7 @@ namespace DataLayer.ModelsContext
                     carFromDb.Category = item.Category;
                 }
             }
+            dbContext.SaveChanges();
         }
         public async Task DeleteAsync(int key)
         {
