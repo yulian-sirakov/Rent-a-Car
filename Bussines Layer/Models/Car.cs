@@ -28,6 +28,7 @@ namespace Bussines_Layer.Models
 
         [Required]
         [Range(0, 1000, ErrorMessage = "Max daily rent is 1000")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal DailyRent { get; set; }
 
         public string Description { get; set; }
@@ -44,7 +45,7 @@ namespace Bussines_Layer.Models
 
         public ICollection<Review> Reviews { get; set; }
 
-        private Car()
+        public Car()
         {
             Reviews = new List<Review>();
         }

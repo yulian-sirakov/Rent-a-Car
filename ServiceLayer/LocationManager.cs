@@ -31,12 +31,12 @@ namespace ServiceLayer
         {
             return await locationContext.ReadAllAsync(navigationalProperties, isReadOnly);
         }
-        public async Task Update(Location location, bool navigationalProperties = false)
+        public async Task UpdateAsync(Location location, bool navigationalProperties = false)
         {
             await locationContext.UpdateAsync(location, navigationalProperties);
         }
 
-        public async Task Delete(int key)
+        public async Task DeleteAsync(int key)
         {
             await locationContext.DeleteAsync(key);
         }

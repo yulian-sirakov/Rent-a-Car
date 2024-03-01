@@ -39,7 +39,7 @@ namespace DataLayer.ModelsContext
 
                 if (useNavigationalProperties)
                 {
-                    query = query.Include(r => r.Car).Include(r => r.Customer);
+                    query = query.Include(r => r.Car).Include(r => r.Customer).Include(r=>r.Location);
                 }
 
                 if (isReadOnly)
@@ -95,7 +95,7 @@ namespace DataLayer.ModelsContext
                 if (useNavigationalProperties)
                 {
 
-                    Customer customerFromDb = await dbContext.Customers.FindAsync(item.Customer.Id);
+                    Customer customerFromDb = await dbContext.Customers.FindAsync(item.CustomerId);
                     if (customerFromDb != null)
                     {
                         reservationFromDb.Customer = customerFromDb;
@@ -105,7 +105,7 @@ namespace DataLayer.ModelsContext
                         reservationFromDb.Customer = item.Customer;
                     }
 
-                    Car carFromDb = await dbContext.Cars.FindAsync(item.Car.Id);
+                    Car carFromDb = await dbContext.Cars.FindAsync(item.CarId);
                     if (carFromDb != null)
                     {
                         reservationFromDb.Car = carFromDb;

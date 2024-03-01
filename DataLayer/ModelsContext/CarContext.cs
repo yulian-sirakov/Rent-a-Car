@@ -22,7 +22,7 @@ namespace DataLayer.ModelsContext
         {
             try
             {
-                CarCategory carCategoryFromDb = await dbContext.CarCategories.FindAsync(item.Category.Id);
+                CarCategory carCategoryFromDb = await dbContext.CarCategories.FindAsync(item.CarCategoryId);
                 if (carCategoryFromDb != null)
                 {
                     item.Category = carCategoryFromDb;

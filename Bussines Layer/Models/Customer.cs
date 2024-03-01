@@ -29,7 +29,7 @@ namespace Bussines_Layer.Models
 
         public List<Review> Reviews { get; set; }
 
-        private Customer()
+        public Customer()
         {
             Reservations = new List<Reservation>();
             Reviews = new List<Review>();

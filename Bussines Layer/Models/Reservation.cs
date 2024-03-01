@@ -17,14 +17,13 @@ namespace Bussines_Layer.Models
         [Required]
         public int CustomerId { get; set; }
 
-        [Required]
+        
         [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; }
 
         [Required]
         public int CarId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(CarId))]
         public Car Car { get; set; }
         [Required]
@@ -34,6 +33,7 @@ namespace Bussines_Layer.Models
         public DateTime EndDate { get; set; }
 
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
 
         [Required]
@@ -46,7 +46,7 @@ namespace Bussines_Layer.Models
         public Location Location { get; set; }
 
 
-        private Reservation()
+        public Reservation()
         {
 
         }

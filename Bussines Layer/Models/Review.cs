@@ -16,7 +16,7 @@ namespace Bussines_Layer.Models
         [Required]
         public int CustomerId { get; set; }
 
-        [Required]
+
         [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; }
 
@@ -26,25 +26,27 @@ namespace Bussines_Layer.Models
         [Range(1, 5, ErrorMessage = "Рейтингът трябва да бъде между 1 и 5.")]
         public double Rating { get; set; }
 
+        [Required]
+        public int CarId { get; set; }
 
-        public ICollection<Car> Cars { get; set; }
+        [ForeignKey(nameof(CarId))]
+        public Car Car { get; set; }
 
-
-
-        private Review()
+        public Review()
         {
-            Cars = new List<Car>();
+
         }
 
 
-        public Review(int id, Customer customer, string reviewText, int rating)
+        public Review(int id, Customer customer, string reviewText, int rating,Car car)
         {
             Id = id;
             Customer = customer;
             ReviewText = reviewText;
             Rating = rating;
             CustomerId = customer.Id;
-            Cars = new List<Car>();
+            Car = car;
+            CarId = car.Id;
         }
     }
 }

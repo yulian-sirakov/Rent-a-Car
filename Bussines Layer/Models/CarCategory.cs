@@ -18,12 +18,12 @@ namespace Bussines_Layer.Models
 
         public string Description { get; set; }
 
-        public List<Car> Cars { get; set; }
-        private CarCategory()
-        {
-            Cars = new List<Car>();
-        }
+        public List<Car> Cars { get; set; } = new List<Car>();
 
+        public CarCategory()
+        {
+                
+        }
 
         public CarCategory(int id, string name, string description)
         {

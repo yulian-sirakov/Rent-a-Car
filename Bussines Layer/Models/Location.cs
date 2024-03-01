@@ -20,24 +20,16 @@ namespace Bussines_Layer.Models
         [MaxLength(100,ErrorMessage = "Town name length must be maximum 100 characters!")]
         public string Town { get; set; }
 
-        [Required]
-        public int ReservationId { get; set; }
-
-        [ForeignKey(nameof(ReservationId))]
-        public Reservation Reservation { get; set; }
-
-        private Location()
+        public Location()
         {
 
         }
 
-        public Location(int id, string adress, string town,Reservation reservation)
+        public Location(int id, string adress, string town)
         {
             Id = id;
             Adress = adress;
             Town = town;
-            Reservation = reservation;
-            ReservationId = reservation.Id;
         }
     }
 }

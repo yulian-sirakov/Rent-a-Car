@@ -17,7 +17,7 @@ namespace DataLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.25")
+                .HasAnnotation("ProductVersion", "6.0.27")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -42,7 +42,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsReserved")
@@ -72,7 +71,6 @@ namespace DataLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -83,21 +81,6 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CarCategories");
-                });
-
-            modelBuilder.Entity("Bussines_Layer.Models.CarReview", b =>
-                {
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReviewId", "CarId");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("CarsReviews");
                 });
 
             modelBuilder.Entity("Bussines_Layer.Models.Customer", b =>
@@ -140,16 +123,12 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Town")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReservationId");
 
                     b.ToTable("Locations");
                 });
@@ -202,6 +181,9 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -213,6 +195,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarId");
 
                     b.HasIndex("CustomerId");
 
@@ -228,36 +212,6 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Bussines_Layer.Models.CarReview", b =>
-                {
-                    b.HasOne("Bussines_Layer.Models.Car", "Car")
-                        .WithMany("CarsReviews")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bussines_Layer.Models.Review", "Review")
-                        .WithMany("CarsReviews")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-
-                    b.Navigation("Review");
-                });
-
-            modelBuilder.Entity("Bussines_Layer.Models.Location", b =>
-                {
-                    b.HasOne("Bussines_Layer.Models.Reservation", "Reservation")
-                        .WithMany()
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("Bussines_Layer.Models.Reservation", b =>
@@ -289,18 +243,26 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("Bussines_Layer.Models.Review", b =>
                 {
+                    b.HasOne("Bussines_Layer.Models.Car", "Car")
+                        .WithMany("Reviews")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Bussines_Layer.Models.Customer", "Customer")
                         .WithMany("Reviews")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Car");
+
                     b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Bussines_Layer.Models.Car", b =>
                 {
-                    b.Navigation("CarsReviews");
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Bussines_Layer.Models.CarCategory", b =>
@@ -313,11 +275,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("Bussines_Layer.Models.Review", b =>
-                {
-                    b.Navigation("CarsReviews");
                 });
 #pragma warning restore 612, 618
         }

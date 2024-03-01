@@ -34,10 +34,6 @@ namespace DataLayer.ModelsContext
             try
             {
                 IQueryable<Location> query = dbContext.Locations;
-                if (useNavigationalProperties)
-                {
-                    query = query.Include(l => l.Reservation);
-                }
                 if (isReadOnly)
                 {
                     query = query.AsNoTrackingWithIdentityResolution();
@@ -55,14 +51,12 @@ namespace DataLayer.ModelsContext
             try
             {
                 Location locationFromDb = await ReadAsync(key, false, false);
-                if (locationFromDb != null)
+                if (locationFromDb == null)
                 {
                     throw new ArgumentException();
                 }
                 dbContext.Locations.Remove(locationFromDb);
                 await dbContext.SaveChangesAsync();
-
-
             }
             catch (Exception)
             {
@@ -74,11 +68,6 @@ namespace DataLayer.ModelsContext
         public async Task<ICollection<Location>> ReadAllAsync(bool useNavigationalProperties = false, bool isReadOnly = true)
         {
             IQueryable<Location> query = dbContext.Locations;
-            if (useNavigationalProperties)
-            {
-                query = query.Include(l => l.Reservation);
-
-            }
             if (isReadOnly)
             {
                 query = query.AsNoTrackingWithIdentityResolution();
@@ -99,7 +88,6 @@ namespace DataLayer.ModelsContext
                     throw new ArgumentException();
                 }
                 locationFromDb.Adress = item.Adress;
-                locationFromDb.Reservation = item.Reservation;
                 locationFromDb.Town = item.Town;
                 await dbContext.SaveChangesAsync();
             }

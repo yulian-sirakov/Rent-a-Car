@@ -31,12 +31,12 @@ namespace ServiceLayer
         {
             return await carCategoryContext.ReadAllAsync(navigationalProperties, isReadOnly);
         }
-        public async Task Update(CarCategory carCategory, bool navigationalProperties = false)
+        public async Task UpdateAsync(CarCategory carCategory, bool navigationalProperties = false)
         {
             await carCategoryContext.UpdateAsync(carCategory,navigationalProperties);
         }
 
-        public async Task Delete(int key)
+        public async Task DeleteAsync(int key)
         {
             await carCategoryContext.DeleteAsync(key);
         }

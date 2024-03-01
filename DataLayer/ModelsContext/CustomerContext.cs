@@ -98,8 +98,9 @@ namespace DataLayer.ModelsContext
                         }
                         customerFromDb.Reviews = reviews;
                     }
-                    await dbContext.SaveChangesAsync();
+                    
                 }
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception)
             {

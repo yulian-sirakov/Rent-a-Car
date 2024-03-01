@@ -23,7 +23,7 @@ namespace DataLayer.ModelsContext
         {
             try
             {
-                Customer customerFromDb = await dbContext.Customers.FindAsync(item.Customer.Id);
+                Customer customerFromDb = await dbContext.Customers.FindAsync(item.CustomerId);
                 if (customerFromDb != null)
                 {
                     item.Customer = customerFromDb;
@@ -46,6 +46,11 @@ namespace DataLayer.ModelsContext
             {
                 IQueryable<Review> query = dbContext.Reviews;
 
+                if (useNavigationalProperties)
+                {
+                    query = query.Include(r => r.Car).Include(r => r.Customer);
+                }
+
                 if (isReadOnly)
                 {
                     query = query.AsNoTrackingWithIdentityResolution();
@@ -64,6 +69,11 @@ namespace DataLayer.ModelsContext
             try
             {
                 IQueryable<Review> query = dbContext.Reviews;
+
+                if (useNavigationalProperties)
+                {
+                    query = query.Include(r => r.Car).Include(r => r.Customer);
+                }
 
 
                 if (isReadOnly)
@@ -92,7 +102,7 @@ namespace DataLayer.ModelsContext
 
                 if (useNavigationalProperties)
                 {
-                    Customer customerFromDb = await dbContext.Customers.FindAsync(item.Customer.Id);
+                    Customer customerFromDb = await dbContext.Customers.FindAsync(item.CustomerId);
 
                     if (customerFromDb != null)
                     {
@@ -103,7 +113,16 @@ namespace DataLayer.ModelsContext
                         reviewFromDb.Customer = item.Customer;
                     }
 
+                    Car carFromDb = await dbContext.Cars.FindAsync(item.CarId);
 
+                    if (carFromDb != null)
+                    {
+                        reviewFromDb.Car = carFromDb;
+                    }
+                    else
+                    {
+                        reviewFromDb.Car = item.Car;
+                    }
                 }
 
                 await dbContext.SaveChangesAsync();
