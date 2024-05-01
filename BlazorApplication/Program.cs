@@ -3,6 +3,7 @@ using Bussines_Layer.Models;
 using DataLayer.Common;
 using DataLayer.ModelsContext;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 
 namespace BlazorApplication
@@ -20,7 +21,10 @@ namespace BlazorApplication
 
             builder.Services.AddQuickGridEntityFrameworkAdapter();
 
-            builder.Services.AddDbContext<RentACarDbContext>();
+            builder.Services.AddDbContext<RentACarDbContext>(options =>
+            {
+                options.UseSqlServer("Server=DESKTOP-SQ0CA1F\\SQLEXPRESS;Database=RentACar;Trusted_Connection=True;TrustServerCertificate=True;");
+            });
 
             builder.Services.AddScoped<CarCategoryManager, CarCategoryManager>();
             builder.Services.AddScoped<IDb<CarCategory, int>, CarCategoryContext>();
