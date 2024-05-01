@@ -1,0 +1,51 @@
+﻿@page "/reviews/details"
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Review</h4>
+    <hr />
+    @if (review is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">CustomerId</dt>
+            <dd class="col-sm-10">@review.CustomerId</dd>
+            <dt class="col-sm-2">ReviewText</dt>
+            <dd class="col-sm-10">@review.ReviewText</dd>
+            <dt class="col-sm-2">Rating</dt>
+            <dd class="col-sm-10">@review.Rating</dd>
+            <dt class="col-sm-2">CarId</dt>
+            <dd class="col-sm-10">@review.CarId</dd>
+        </dl>
+        <div>
+            <a href="@($"/reviews/edit?id={review.Id}")">Edit</a> |
+            <a href="@($"/reviews")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Review? review;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        review = await DB.Reviews.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (review is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

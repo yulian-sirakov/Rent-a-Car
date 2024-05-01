@@ -1,0 +1,25 @@
+﻿@page "/reviews"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="reviews/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Reviews">
+    <PropertyColumn Property="review => review.CustomerId" />
+    <PropertyColumn Property="review => review.ReviewText" />
+    <PropertyColumn Property="review => review.Rating" />
+    <PropertyColumn Property="review => review.CarId" />
+
+    <TemplateColumn Context="review">
+        <a href="@($"reviews/edit?id={review.Id}")">Edit</a> |
+        <a href="@($"reviews/details?id={review.Id}")">Details</a> |
+        <a href="@($"reviews/delete?id={review.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

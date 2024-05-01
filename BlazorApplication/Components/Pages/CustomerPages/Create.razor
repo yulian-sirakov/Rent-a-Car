@@ -1,0 +1,53 @@
+﻿@page "/customers/create"
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Customer" OnValidSubmit="AddCustomer" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Customer.Name" class="form-control" /> 
+                <ValidationMessage For="() => Customer.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label> 
+                <InputText id="email" @bind-Value="Customer.Email" class="form-control" /> 
+                <ValidationMessage For="() => Customer.Email" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="phonenumber" class="form-label">PhoneNumber:</label> 
+                <InputText id="phonenumber" @bind-Value="Customer.PhoneNumber" class="form-control" /> 
+                <ValidationMessage For="() => Customer.PhoneNumber" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/customers">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Customer Customer { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddCustomer()
+    {
+        DB.Customers.Add(Customer);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/customers");
+    }
+}

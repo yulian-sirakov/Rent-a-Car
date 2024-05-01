@@ -1,0 +1,28 @@
+﻿@page "/cars"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="cars/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Cars">
+    <PropertyColumn Property="car => car.Brand" />
+    <PropertyColumn Property="car => car.Model" />
+    <PropertyColumn Property="car => car.Year" />
+    <PropertyColumn Property="car => car.DailyRent" />
+    <PropertyColumn Property="car => car.Description" />
+    <PropertyColumn Property="car => car.IsReserved" />
+    <PropertyColumn Property="car => car.CarCategoryId" />
+
+    <TemplateColumn Context="car">
+        <a href="@($"cars/edit?id={car.Id}")">Edit</a> |
+        <a href="@($"cars/details?id={car.Id}")">Details</a> |
+        <a href="@($"cars/delete?id={car.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

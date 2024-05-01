@@ -1,0 +1,48 @@
+﻿@page "/locations/create"
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Location</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Location" OnValidSubmit="AddLocation" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="adress" class="form-label">Adress:</label> 
+                <InputText id="adress" @bind-Value="Location.Adress" class="form-control" /> 
+                <ValidationMessage For="() => Location.Adress" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="town" class="form-label">Town:</label> 
+                <InputText id="town" @bind-Value="Location.Town" class="form-control" /> 
+                <ValidationMessage For="() => Location.Town" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/locations">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Location Location { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddLocation()
+    {
+        DB.Locations.Add(Location);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/locations");
+    }
+}

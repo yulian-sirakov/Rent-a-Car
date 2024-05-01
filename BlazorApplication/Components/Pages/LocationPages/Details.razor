@@ -1,0 +1,47 @@
+﻿@page "/locations/details"
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Location</h4>
+    <hr />
+    @if (location is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Adress</dt>
+            <dd class="col-sm-10">@location.Adress</dd>
+            <dt class="col-sm-2">Town</dt>
+            <dd class="col-sm-10">@location.Town</dd>
+        </dl>
+        <div>
+            <a href="@($"/locations/edit?id={location.Id}")">Edit</a> |
+            <a href="@($"/locations")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Location? location;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        location = await DB.Locations.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (location is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

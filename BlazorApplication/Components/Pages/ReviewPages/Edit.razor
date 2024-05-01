@@ -1,0 +1,101 @@
+﻿@page "/Reviews/edit"
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>Review</h4>
+<hr />
+@if (Review is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Review" OnValidSubmit="UpdateReview" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="Review.Id" value="@Review.Id" />
+                <div class="mb-3">
+                    <label for="customerid" class="form-label">CustomerId:</label>
+                    <InputNumber id="customerid" @bind-Value="Review.CustomerId" class="form-control" />
+                    <ValidationMessage For="() => Review.CustomerId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="reviewtext" class="form-label">ReviewText:</label>
+                    <InputText id="reviewtext" @bind-Value="Review.ReviewText" class="form-control" />
+                    <ValidationMessage For="() => Review.ReviewText" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating:</label>
+                    <InputNumber id="rating" @bind-Value="Review.Rating" class="form-control" />
+                    <ValidationMessage For="() => Review.Rating" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="carid" class="form-label">CarId:</label>
+                    <InputNumber id="carid" @bind-Value="Review.CarId" class="form-control" />
+                    <ValidationMessage For="() => Review.CarId" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/reviews">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Review? Review { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Review ??= await DB.Reviews.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Review is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateReview()
+    {
+        DB.Attach(Review!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ReviewExists(Review!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/reviews");
+    }
+
+    bool ReviewExists(int id)
+    {
+        return DB.Reviews.Any(e => e.Id == id);
+    }
+}

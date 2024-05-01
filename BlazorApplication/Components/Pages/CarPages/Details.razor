@@ -1,0 +1,57 @@
+﻿@page "/cars/details"
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Car</h4>
+    <hr />
+    @if (car is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Brand</dt>
+            <dd class="col-sm-10">@car.Brand</dd>
+            <dt class="col-sm-2">Model</dt>
+            <dd class="col-sm-10">@car.Model</dd>
+            <dt class="col-sm-2">Year</dt>
+            <dd class="col-sm-10">@car.Year</dd>
+            <dt class="col-sm-2">DailyRent</dt>
+            <dd class="col-sm-10">@car.DailyRent</dd>
+            <dt class="col-sm-2">Description</dt>
+            <dd class="col-sm-10">@car.Description</dd>
+            <dt class="col-sm-2">IsReserved</dt>
+            <dd class="col-sm-10">@car.IsReserved</dd>
+            <dt class="col-sm-2">CarCategoryId</dt>
+            <dd class="col-sm-10">@car.CarCategoryId</dd>
+        </dl>
+        <div>
+            <a href="@($"/cars/edit?id={car.Id}")">Edit</a> |
+            <a href="@($"/cars")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Car? car;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        car = await DB.Cars.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (car is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

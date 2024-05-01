@@ -1,0 +1,24 @@
+﻿@page "/customers"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject DataLayer.Common.RentACarDbContext DB
+@using Bussines_Layer.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="customers/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Customers">
+    <PropertyColumn Property="customer => customer.Name" />
+    <PropertyColumn Property="customer => customer.Email" />
+    <PropertyColumn Property="customer => customer.PhoneNumber" />
+
+    <TemplateColumn Context="customer">
+        <a href="@($"customers/edit?id={customer.Id}")">Edit</a> |
+        <a href="@($"customers/details?id={customer.Id}")">Details</a> |
+        <a href="@($"customers/delete?id={customer.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
